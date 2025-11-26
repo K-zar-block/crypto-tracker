@@ -1,0 +1,40 @@
+<div class="portfolio-dashboard">
+  <h2>Tableau de Bord</h2>
+
+  <div *ngIf="!isConnected" class="not-connected">
+    <p>Veuillez vous connecter à un exchange pour commencer.</p>
+  </div>
+
+  <div *ngIf="isConnected">
+    <div class="controls">
+      <button
+        (click)="onLoadTransactions()"
+        [disabled]="isLoading"
+        class="btn btn-primary"
+      >
+        {{ isLoading ? 'Chargement...' : 'Charger les transactions' }}
+      </button>
+
+      <div *ngIf="allTransactions.length > 0" class="date-filter">
+        <label for="startDate">Calculer P&L à partir du :</label>
+        <input
+          type="date"
+          id="startDate"
+          [(ngModel)]="startDateFilter"
+          (change)="onDateFilterChange()"
+          [max]="todayDate"
+        />
+        <button (click)="resetDateFilter()" class="btn btn-secondary">Tout afficher</button>
+      </div>
+    </div>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+
+    <div *ngIf="portfolio" class="portfolio-content">
+      <app-pnl-summary [portfolio]="portfolio"></app-pnl-summary>
+      <app-transactions-list [transactions]="transactions"></app-transactions-list>
+    </div>
+  </div>
+</div>

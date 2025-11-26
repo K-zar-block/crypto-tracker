@@ -1,0 +1,38 @@
+<div class="transactions-list">
+  <h3>Transactions ({{ transactions.length }})</h3>
+
+  <div *ngIf="transactions.length === 0" class="no-transactions">
+    <p>Aucune transaction pour le moment.</p>
+  </div>
+
+  <div *ngIf="transactions.length > 0" class="table-container">
+    <table class="transactions-table">
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Symbole</th>
+          <th>Type</th>
+          <th>Prix</th>
+          <th>Quantité</th>
+          <th>Coût Total</th>
+          <th>Frais</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tx of transactions" [class.buy]="tx.type === 'buy'" [class.sell]="tx.type === 'sell'">
+          <td>{{ formatDate(tx.timestamp) }}</td>
+          <td>{{ tx.symbol }}</td>
+          <td>
+            <span class="badge" [class.badge-buy]="tx.type === 'buy'" [class.badge-sell]="tx.type === 'sell'">
+              {{ tx.type === 'buy' ? 'ACHAT' : 'VENTE' }}
+            </span>
+          </td>
+          <td>{{ formatNumber(tx.price, 4) }}</td>
+          <td>{{ formatNumber(tx.amount) }}</td>
+          <td>{{ formatNumber(tx.cost, 2) }}</td>
+          <td>{{ getFeeInUSD(tx) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

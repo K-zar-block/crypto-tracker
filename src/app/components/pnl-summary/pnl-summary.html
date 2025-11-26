@@ -1,0 +1,99 @@
+<div class="pnl-summary" *ngIf="portfolio">
+  <h3>Résumé du Portfolio</h3>
+
+  <div class="summary-cards">
+    <div class="card">
+      <h4>Investissement Total</h4>
+      <p class="value">{{ formatCurrency(portfolio.totalInvested) }}</p>
+    </div>
+
+    <div class="card">
+      <h4>Valeur Actuelle</h4>
+      <p class="value">{{ formatCurrency(portfolio.currentValue) }}</p>
+    </div>
+
+    <div class="card">
+      <h4>P&L Non Réalisé</h4>
+      <p class="value" [class.positive]="portfolio.totalUnrealizedPnL >= 0" [class.negative]="portfolio.totalUnrealizedPnL < 0">
+        {{ formatCurrency(portfolio.totalUnrealizedPnL) }}
+      </p>
+    </div>
+
+    <div class="card">
+      <h4>P&L Réalisé</h4>
+      <p class="value" [class.positive]="portfolio.totalRealizedPnL >= 0" [class.negative]="portfolio.totalRealizedPnL < 0">
+        {{ formatCurrency(portfolio.totalRealizedPnL) }}
+      </p>
+    </div>
+
+    <div class="card highlight">
+      <h4>P&L Total</h4>
+      <p class="value" [class.positive]="portfolio.totalPnL >= 0" [class.negative]="portfolio.totalPnL < 0">
+        {{ formatCurrency(portfolio.totalPnL) }}
+      </p>
+      <p class="percent" [class.positive]="portfolio.totalPnLPercent >= 0" [class.negative]="portfolio.totalPnLPercent < 0">
+        {{ formatPercent(portfolio.totalPnLPercent) }}
+      </p>
+    </div>
+  </div>
+
+  <div class="positions" *ngIf="portfolio.positions.length > 0">
+    <h4>Positions Actuelles</h4>
+    <table class="positions-table">
+      <thead>
+        <tr>
+          <th>Asset</th>
+          <th>Quantité</th>
+          <th>Coût Moyen</th>
+          <th>Prix Actuel</th>
+          <th>Investi</th>
+          <th>Valeur</th>
+          <th>P&L</th>
+          <th>P&L %</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let pos of portfolio.positions">
+          <td><strong>{{ pos.asset }}</strong></td>
+          <td>{{ formatNumber(pos.totalAmount) }}</td>
+          <td>{{ formatNumber(pos.averageCost, 4) }}</td>
+          <td>{{ formatNumber(pos.currentPrice, 4) }}</td>
+          <td>{{ formatCurrency(pos.totalInvested) }}</td>
+          <td>{{ formatCurrency(pos.currentValue) }}</td>
+          <td [class.positive]="pos.unrealizedPnL >= 0" [class.negative]="pos.unrealizedPnL < 0">
+            {{ formatCurrency(pos.unrealizedPnL) }}
+          </td>
+          <td [class.positive]="pos.unrealizedPnLPercent >= 0" [class.negative]="pos.unrealizedPnLPercent < 0">
+            {{ formatPercent(pos.unrealizedPnLPercent) }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="realized-pnl" *ngIf="portfolio.realizedPnLByAsset.length > 0">
+    <h4>P&L Réalisé par Asset</h4>
+    <table class="realized-table">
+      <thead>
+        <tr>
+          <th>Asset</th>
+          <th>Total Vendu</th>
+          <th>P&L Total</th>
+          <th>Profits</th>
+          <th>Pertes</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let realized of portfolio.realizedPnLByAsset">
+          <td><strong>{{ realized.asset }}</strong></td>
+          <td>{{ formatNumber(realized.totalSold) }}</td>
+          <td [class.positive]="realized.totalRealized >= 0" [class.negative]="realized.totalRealized < 0">
+            {{ formatCurrency(realized.totalRealized) }}
+          </td>
+          <td class="positive">{{ formatCurrency(realized.totalProfit) }}</td>
+          <td class="negative">{{ formatCurrency(realized.totalLoss) }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

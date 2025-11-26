@@ -1,0 +1,156 @@
+.pnl-summary {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.5rem;
+    color: #333;
+  }
+
+  h4 {
+    margin: 1.5rem 0 1rem 0;
+    font-size: 1.2rem;
+    color: #555;
+  }
+
+  .summary-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin-bottom: 2rem;
+
+    .card {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      padding: 1.25rem;
+      border-radius: 8px;
+      text-align: center;
+
+      h4 {
+        margin: 0 0 0.75rem 0;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        color: #666;
+        font-weight: 600;
+      }
+
+      .value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0;
+        color: #333;
+
+        &.positive {
+          color: #2e7d32;
+        }
+
+        &.negative {
+          color: #c62828;
+        }
+      }
+
+      .percent {
+        font-size: 1rem;
+        font-weight: 600;
+        margin: 0.5rem 0 0 0;
+
+        &.positive {
+          color: #2e7d32;
+        }
+
+        &.negative {
+          color: #c62828;
+        }
+      }
+
+      &.highlight {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+        h4 {
+          color: rgba(255, 255, 255, 0.9);
+        }
+
+        .value,
+        .percent {
+          color: white;
+        }
+      }
+    }
+  }
+
+  .positions,
+  .realized-pnl {
+    margin-top: 2rem;
+
+    .positions-table,
+    .realized-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+
+      thead {
+        background-color: #f8f9fa;
+
+        th {
+          padding: 0.75rem;
+          text-align: left;
+          font-weight: 600;
+          color: #555;
+          border-bottom: 2px solid #dee2e6;
+          font-size: 0.9rem;
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid #e9ecef;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background-color: #f8f9fa;
+          }
+
+          td {
+            padding: 0.75rem;
+            font-size: 0.9rem;
+
+            &.positive {
+              color: #2e7d32;
+              font-weight: 600;
+            }
+
+            &.negative {
+              color: #c62828;
+              font-weight: 600;
+            }
+
+            strong {
+              color: #333;
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .pnl-summary {
+    .summary-cards {
+      grid-template-columns: 1fr;
+    }
+
+    .positions-table,
+    .realized-table {
+      font-size: 0.8rem;
+
+      thead th,
+      tbody td {
+        padding: 0.5rem;
+      }
+    }
+  }
+}

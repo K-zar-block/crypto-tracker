@@ -1,0 +1,18 @@
+<div class="app-container">
+  <header class="app-header">
+    <h1>{{ title }}</h1>
+    <p>Suivez vos transactions crypto et calculez votre P&L</p>
+  </header>
+
+  <main class="app-main">
+    <div class="sidebar">
+      <app-exchange-connection></app-exchange-connection>
+    </div>
+
+    <div class="content">
+      <app-portfolio-dashboard></app-portfolio-dashboard>
+    </div>
+  </main>
+</div>
+
+<router-outlet />

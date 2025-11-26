@@ -1,0 +1,68 @@
+<div class="exchange-connection">
+  <h2>Connexion Exchange</h2>
+
+  <div *ngIf="!electronApiAvailable" class="warning-message">
+    <strong>⚠️ Mode Navigateur Détecté</strong>
+    <p>L'application doit être lancée via Electron pour se connecter aux exchanges.</p>
+    <p>Utilisez : <code>npm run electron:dev</code></p>
+  </div>
+
+  <div *ngIf="!isConnected" class="connection-form">
+    <div class="form-group">
+      <label for="exchange">Exchange:</label>
+      <select id="exchange" [(ngModel)]="credentials.name" class="form-control">
+        <option value="binance">Binance</option>
+        <option value="coinbase">Coinbase</option>
+        <option value="kraken">Kraken</option>
+        <option value="bybit">Bybit</option>
+        <option value="okx">OKX</option>
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="apiKey">API Key:</label>
+      <input
+        id="apiKey"
+        type="text"
+        [(ngModel)]="credentials.apiKey"
+        class="form-control"
+        placeholder="Votre API Key"
+      />
+    </div>
+
+    <div class="form-group">
+      <label for="apiSecret">API Secret:</label>
+      <input
+        id="apiSecret"
+        type="password"
+        [(ngModel)]="credentials.apiSecret"
+        class="form-control"
+        placeholder="Votre API Secret"
+      />
+    </div>
+
+    <div class="form-group">
+      <label>
+        <input type="checkbox" [(ngModel)]="credentials.testnet" />
+        Utiliser le Testnet
+      </label>
+    </div>
+
+    <button
+      (click)="onConnect()"
+      [disabled]="isConnecting || !credentials.apiKey || !credentials.apiSecret || !electronApiAvailable"
+      class="btn btn-primary"
+    >
+      {{ isConnecting ? 'Connexion...' : 'Se connecter' }}
+    </button>
+
+    <div *ngIf="errorMessage" class="error-message">
+      {{ errorMessage }}
+    </div>
+  </div>
+
+  <div *ngIf="isConnected" class="connected-state">
+    <p class="success-message">✓ Connecté à {{ credentials.name }}</p>
+    <button (click)="onDisconnect()" class="btn btn-secondary">Se déconnecter</button>
+  </div>
+</div>

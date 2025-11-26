@@ -1,0 +1,98 @@
+.transactions-list {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
+  h3 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.5rem;
+    color: #333;
+  }
+
+  .no-transactions {
+    text-align: center;
+    padding: 2rem;
+    color: #999;
+  }
+
+  .table-container {
+    overflow-x: auto;
+
+    .transactions-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: white;
+
+      thead {
+        background-color: #f8f9fa;
+
+        th {
+          padding: 0.75rem;
+          text-align: left;
+          font-weight: 600;
+          color: #555;
+          border-bottom: 2px solid #dee2e6;
+          font-size: 0.9rem;
+          white-space: nowrap;
+        }
+      }
+
+      tbody {
+        tr {
+          border-bottom: 1px solid #e9ecef;
+          transition: background-color 0.2s;
+
+          &:hover {
+            background-color: #f8f9fa;
+          }
+
+          &.buy {
+            border-left: 3px solid #2e7d32;
+          }
+
+          &.sell {
+            border-left: 3px solid #c62828;
+          }
+
+          td {
+            padding: 0.75rem;
+            font-size: 0.9rem;
+
+            .badge {
+              display: inline-block;
+              padding: 0.25rem 0.75rem;
+              border-radius: 12px;
+              font-size: 0.8rem;
+              font-weight: 600;
+              text-transform: uppercase;
+
+              &.badge-buy {
+                background-color: #e8f5e9;
+                color: #2e7d32;
+              }
+
+              &.badge-sell {
+                background-color: #ffebee;
+                color: #c62828;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .transactions-list {
+    .transactions-table {
+      font-size: 0.75rem;
+
+      thead th,
+      tbody td {
+        padding: 0.5rem 0.25rem;
+      }
+    }
+  }
+}
