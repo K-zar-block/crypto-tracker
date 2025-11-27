@@ -72,7 +72,7 @@ export class TransactionsList {
   private estimateBNBPrice(timestamp: number): number {
     const date = new Date(timestamp);
     const year = date.getFullYear();
-    
+
     // Prix BNB approximatifs par année
     const bnbPrices: { [key: number]: number } = {
       2022: 300,
@@ -80,7 +80,88 @@ export class TransactionsList {
       2024: 600,
       2025: 650
     };
-    
+
     return bnbPrices[year] || 500;
+  }
+
+  /**
+   * Convertit le coût total en USD
+   */
+  getCostInUSD(transaction: Transaction): string {
+    const cost = transaction.cost;
+    const symbol = transaction.symbol; // Ex: "BTC/USDT", "ETH/BTC"
+    const quoteCurrency = symbol.split('/')[1]; // La devise de cotation (USDT, BTC, EUR, etc.)
+
+    // Si la devise de cotation est déjà un stablecoin USD
+    if (['USDT', 'USDC', 'BUSD', 'USD'].includes(quoteCurrency)) {
+      return `$${cost.toFixed(2)}`;
+    }
+
+    // Si c'est en EUR
+    if (quoteCurrency === 'EUR') {
+      return `$${(cost * 1.05).toFixed(2)}`; // 1 EUR ≈ 1.05 USD
+    }
+
+    // Si c'est en BTC, utilise le prix BTC de la transaction
+    if (quoteCurrency === 'BTC') {
+      // Pour une paire X/BTC, le cost est en BTC
+      // Il faut le convertir en USD en multipliant par le prix du BTC
+      // On estime le prix BTC historique
+      const btcPrice = this.estimateBTCPrice(transaction.timestamp);
+      return `$${(cost * btcPrice).toFixed(2)}`;
+    }
+
+    // Si c'est en ETH
+    if (quoteCurrency === 'ETH') {
+      const ethPrice = this.estimateETHPrice(transaction.timestamp);
+      return `$${(cost * ethPrice).toFixed(2)}`;
+    }
+
+    // Si c'est en BNB
+    if (quoteCurrency === 'BNB') {
+      const bnbPrice = this.estimateBNBPrice(transaction.timestamp);
+      return `$${(cost * bnbPrice).toFixed(2)}`;
+    }
+
+    // Par défaut, affiche avec la devise d'origine
+    return `${cost.toFixed(2)} ${quoteCurrency}`;
+  }
+
+  /**
+   * Estime le prix BTC en fonction de la date
+   */
+  private estimateBTCPrice(timestamp: number): number {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+
+    const btcPrices: { [key: number]: number } = {
+      2020: 10000,
+      2021: 45000,
+      2022: 20000,
+      2023: 30000,
+      2024: 65000,
+      2025: 95000
+    };
+
+    return btcPrices[year] || 50000;
+  }
+
+  /**
+   * Estime le prix ETH en fonction de la date
+   */
+  private estimateETHPrice(timestamp: number): number {
+    const date = new Date(timestamp);
+    const year = date.getFullYear();
+
+    const ethPrices: { [key: number]: number } = {
+      2020: 400,
+      2021: 3000,
+      2022: 1500,
+      2023: 2000,
+      2024: 3500,
+      2025: 3800
+    };
+
+    return ethPrices[year] || 2500;
   }
 }

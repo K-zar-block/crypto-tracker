@@ -32,6 +32,9 @@ export class PortfolioDashboard implements OnInit {
     // Initialise la date d'aujourd'hui pour le max du date picker
     const today = new Date();
     this.todayDate = today.toISOString().split('T')[0];
+
+    // Initialise la date par défaut au 01/11/2025
+    this.startDateFilter = '2025-11-01';
   }
 
   ngOnInit() {

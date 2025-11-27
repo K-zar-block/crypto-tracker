@@ -29,7 +29,7 @@
           </td>
           <td>{{ formatNumber(tx.price, 4) }}</td>
           <td>{{ formatNumber(tx.amount) }}</td>
-          <td>{{ formatNumber(tx.cost, 2) }}</td>
+          <td>{{ getCostInUSD(tx) }}</td>
           <td>{{ getFeeInUSD(tx) }}</td>
         </tr>
       </tbody>
